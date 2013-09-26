@@ -10,7 +10,7 @@ class Tweet_talker(TwythonStreamer):
         
         super(Tweet_talker, self).__init__(config.get('General', 'consumer_key'), config.get('General', 'consumer_secret'),config.get('General', 'oauth_key'),config.get('General', 'oauth_secret'))
     def on_success(self, data):
-        f = File_handler(self.file_path)
+        f = File_handler(self.file_path + "twitter_stockholm.txt")
         f.append_to_file(str(data))
 
     def on_error(self, status_code, data):

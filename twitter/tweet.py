@@ -12,6 +12,6 @@ class Tweet_handler(tornado.web.RequestHandler):
     '''
     def get(self):
         stream = Tweet_talker()
-        #stream.statuses.filter(locations='14.776611,58.296405,19.742432,60.008507')
-        stream.statuses.filter(track='badminton')
+        stream.statuses.filter(locations='14.776611,58.296405,19.742432,60.008507')
+        #stream.statuses.filter(track='badminton')
         
