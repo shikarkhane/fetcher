@@ -4,7 +4,7 @@ import config
 from twitter import tweet
 
 application = tornado.web.Application([
-    (r"/", tweet.Tweet_Handler),
+    (r"/", tweet.Tweet_handler),
 ])
 
 if __name__ == "__main__":
