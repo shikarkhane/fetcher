@@ -14,5 +14,5 @@ class Tweet_talker(TwythonStreamer):
         f.append_to_file(str(data))
 
     def on_error(self, status_code, data):
-        print status_code
+        print "Error code:{0}, Message:{1}".format(status_code, data)
         self.disconnect()
