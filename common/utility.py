@@ -14,11 +14,16 @@ class Coordinate_handler():
         try:
             cc_code = cc.getCountry(Point(coord[1], coord[0])).iso
         except Exception, e:
-            print coord, str(e)
+            #print coord, str(e)
             cc_code = "error"
         return cc_code
     def skip_this_data(self, data, accepting_country_codes):
-        coord = data.get("coordinates").get("coordinates") 
+        # twitter coordinates are not always present even if its a geo-tagged, instead they have values in key "Places"
+        # we will keep it simple right now and ignore anything which doesnt have get("coordinates").get("coordinates"). Later on we will make it more robust.
+        try:
+            coord = data.get("coordinates").get("coordinates")
+        except:
+            return True 
         if self.find_country_code_for_coordinates(coord) in accepting_country_codes:
             return False
         else:

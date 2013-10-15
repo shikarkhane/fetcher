@@ -9,6 +9,7 @@ import time
 import json
 import datetime
 import ConfigParser
+import config
 
 from common.utility import File_handler, Date_handler, Coordinate_handler
 
@@ -16,6 +17,7 @@ filename = "test_append_to_file_one_line.txt"
 
 class Test_utility(unittest.TestCase):
     def setUp(self):
+        config.create_config_file("mainkey","mainvalue")
         pass
     def tearDown(self):
         pass
