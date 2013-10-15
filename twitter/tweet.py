@@ -13,6 +13,7 @@ class Tweet_handler(tornado.web.RequestHandler):
     def get(self):
         """spawn and return response as true if success"""
         stream = Tweet_talker()
-        stream.statuses.filter(locations='14.776611,58.296405,19.742432,60.008507')
+        #stream.statuses.filter(locations='14.776611,58.296405,19.742432,60.008507')
+        stream.statuses.filter(locations='-180,-90,180,90')
         #stream.statuses.filter(track='badminton')
         
