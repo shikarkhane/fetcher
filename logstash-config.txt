@@ -1,0 +1,28 @@
+input {
+  file {
+		type => "twitter"
+		path => ["/home/nikhil/temp/feed/*.txt"]
+		codec => "json"
+	}
+}
+filter{
+	if [type] == "twitter"{
+	
+	mutate {
+#		add_field => ["to_user_img_url", "%{[user][profile_image_url]}", "to_content_img_url", "%{[entities][media_url]}", "to_coord", "%{[coordinates][coordinates]}", "to_added_on", "%{@timestamp}", "to_post_id", "%{id}", "to_created", "%{created_at}", "to_up_votes", "%{retweet_count}", "to_text", "%{text}", "to_lang", "%{lang}"]
+		add_field => ["user_img_url", "%{[user][profile_image_url]}", "content_img_url", "%{[entities][media_url]}", "coord", "%{[coordinates][coordinates]}", "added_on", "%{@timestamp}"]
+		rename => [ "id","post_id", "created_at","created", "retweet_count", "up_votes"] 
+		remove_field => ["@version", "favorite_count","coordinates","truncated", "source", "retweeted", "entities", "id_str", "user", "contributors", "place", "in_reply_to_user_id_str", "filter_level", "in_reply_to_status_id", "geo", "in_reply_to_screen_name", "in_reply_to_user_id", "favorited", "in_reply_to_status_id_str", "host", "path", "possibly_sensitive"] 
+		}
+	date { match => [ "to_created", "EEE MMM dd HH:mm:ss Z YYYY" ]
+		}
+	mutate { remove_field => ["to_created"]}
+	}
+}
+output {
+#  stdout { 
+#	codec => "json"
+#	debug => "true"
+#}
+  elasticsearch { embedded => true }
+}
