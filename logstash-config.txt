@@ -1,3 +1,4 @@
+# using logstash 1.2.2
 input {
   file {
 		type => "twitter"
