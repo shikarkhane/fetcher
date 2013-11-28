@@ -1,0 +1,8 @@
+# Following are the instructions to deploy virtualenv for fetcher project in production
+# I have struggled to install gdal using pip and hence i rely on getting site packages. May be in future gdal installation will get cleaner or i will find another way to find country codes hence removing the need of gdal.
+apt-get install libgdal-dev (this is optional)
+apt-get install python-gdal
+virtualenv --system-site-packages fetcher
+cd fetcher
+source bin/activate
+pip install -r requirements.txt
