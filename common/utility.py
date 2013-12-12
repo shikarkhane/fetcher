@@ -8,11 +8,12 @@ import datetime
 from gdal_country import Point, CountryChecker
 import settings
 class Coordinate_handler():
+    def __init__(self):
+        self.country_checker = CountryChecker(settings.RESOURCE_PATH + "/" + settings.GDAL_SHAPE_FILENAME)
     def find_country_code_for_coordinates(self, coord):
-        cc = CountryChecker(settings.RESOURCE_PATH + "/" + settings.GDAL_SHAPE_FILENAME)
         # twitter coord are switched
         try:
-            cc_code = cc.getCountry(Point(coord[1], coord[0])).iso
+            cc_code = self.country_checker.getCountry(Point(coord[1], coord[0])).iso
         except Exception, e:
             #print coord, str(e)
             cc_code = "error"
