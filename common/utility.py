@@ -7,6 +7,9 @@ import json
 import datetime
 from gdal_country import Point, CountryChecker
 import settings
+from shutil import move
+import shutil
+
 class Coordinate_handler():
     def __init__(self):
         self.country_checker = CountryChecker(settings.RESOURCE_PATH + "/" + settings.GDAL_SHAPE_FILENAME)
@@ -39,6 +42,9 @@ class File_handler():
         with open(self.file_path, 'a') as f:
                 json.dump(data, f) 
                 f.write("\n")
+    def copy_file_to(self, source, dest):
+        shutil.move(source, dest)
+
 class Date_handler():
     """all dates should be in utc"""
     def get_current_utc_date_string(self, format):
