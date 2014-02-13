@@ -1,14 +1,14 @@
 import tornado.ioloop
-import config
 
 from twitter import tweet
+from insta.handler import Insta_Popular, Insta_handler
 
 application = tornado.web.Application([
-    (r"/", tweet.Tweet_handler),
+    (r"/twitter/", tweet.Tweet_handler),
+    (r"/insta/", Insta_handler),
+    (r"/insta/popular/", Insta_Popular),
 ])
 
 if __name__ == "__main__":
-    #create config file
-    config.create_config_file("mainkey","mainvalue")
     application.listen(9999)
     tornado.ioloop.IOLoop.instance().start()

@@ -8,8 +8,7 @@ import os
 import time
 import json
 import datetime
-import ConfigParser
-import config
+import settings
 
 from common.utility import File_handler, Date_handler, Coordinate_handler
 
@@ -17,7 +16,6 @@ filename = "test_append_to_file_one_line.txt"
 
 class Test_utility(unittest.TestCase):
     def setUp(self):
-        config.create_config_file("mainkey","mainvalue")
         pass
     def tearDown(self):
         pass
@@ -37,9 +35,7 @@ class Test_utility(unittest.TestCase):
         os.remove(filename)
         self.assertEqual(data, json.loads(all_lines[len(all_lines)-1]))
     def test_skip_this_data(self):
-        config = ConfigParser.RawConfigParser()
-        config.read('config.cfg')
-        accepting_country_codes = config.get('DataStream', 'ACCEPTING_COUNTRY_CODES')
+        accepting_country_codes = settings.TwitterStream_ACCEPTING_COUNTRY_CODES
         
         f = Coordinate_handler()
         coord_mixture = {"SE": [[16.59929221,59.92538324]]}

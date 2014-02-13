@@ -1,21 +1,19 @@
 from twython import TwythonStreamer
 from common.utility import File_handler, Date_handler, Coordinate_handler
-import ConfigParser
+import settings as s
 
 class Tweet_talker(TwythonStreamer):
     def __init__(self):
-        config = ConfigParser.RawConfigParser()
-        config.read('config.cfg')
-        self.staging_file_path = config.get('General', 'STAGING_RAW_FEED_FILE_PATH')
-        self.file_path = config.get('General', 'RAW_FEED_FILE_PATH')
-        self.accepting_country_codes = config.get('DataStream', 'ACCEPTING_COUNTRY_CODES')
-        self.file_name_prefix = config.get('General', 'raw_feed_file_prefix') 
+        self.staging_file_path = s.STAGING_RAW_FEED_FILE_PATH
+        self.file_path = s.RAW_FEED_FILE_PATH
+        self.accepting_country_codes = s.TwitterStream_ACCEPTING_COUNTRY_CODES
+        self.file_name_prefix = s.twitter_raw_feed_file_prefix
         
         self.last_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
         self.last_file_handle = File_handler(self.last_full_path)
          
         self.country_code_handle = Coordinate_handler()        
-        super(Tweet_talker, self).__init__(config.get('General', 'consumer_key'), config.get('General', 'consumer_secret'),config.get('General', 'oauth_key'),config.get('General', 'oauth_secret'))
+        super(Tweet_talker, self).__init__(s.twitter_consumer_key, s.twitter_consumer_secret, s.twitter_oauth_key,s.twitter_oauth_secret)
     def on_success(self, data):
         if data:
             if not self.country_code_handle.skip_this_data(data, self.accepting_country_codes):

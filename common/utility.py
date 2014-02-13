@@ -32,6 +32,8 @@ class Coordinate_handler():
             return False
         else:
             return True
+    def reverse_lookup_locality(self, coord):
+        return 'Stockholm'
 class File_handler():
     '''
     anything related to file writing/deleting etc
@@ -48,5 +50,7 @@ class File_handler():
 class Date_handler():
     """all dates should be in utc"""
     def get_current_utc_date_string(self, format):
-        now = datetime.datetime.now()
+        now = datetime.datetime.utcnow()
         return now.strftime(format)
+    def get_utc_x_minutes_ago(self, x_in_minutes):
+        return datetime.datetime.utcnow() - datetime.timedelta(minutes=x_in_minutes)
