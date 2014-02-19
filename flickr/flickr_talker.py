@@ -1,4 +1,4 @@
-from instagram.client import InstagramAPI
+import flickrapi
 from common.utility import Coordinate_handler, Date_handler, File_handler
 import settings
 from common.content import Post
@@ -6,10 +6,13 @@ from common.content import Post
 class Base():
     def __init__(self, access_token):
         self.token = access_token
-        self.api = InstagramAPI(access_token=access_token)
-    def get_closest_media_objects(self, lat, lon, min_timestamp):
-        '''returns a list of media ids'''
-        media = self.api.media_search(lat=lat, lng=lon, min_timestamp=min_timestamp)
+        self.api = flickrapi.FlickrAPI(self.token)
+    def get_media_objects_in_bbox(self, bbox, min_timestamp):
+        '''returns xmlnode with photo ids
+
+        '''
+        r = self.api.photos_search(min_taken_date=min_timestamp, accuracy='11', privacy_filter='1',
+                                   bbox=bbox)
         return media
     def make_igram(self, media_obj):
         o = media_obj
@@ -37,10 +40,11 @@ class Base():
         self.staging_full_path = "{0}{1}{2}.txt".format(staging_file_path, file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
         f = File_handler(self.staging_full_path)
         return f
-    def write_igrams_to_file(self, lat, lon):
-        min_timestamp = Date_handler().get_utc_x_minutes_ago(settings.insta_fetch_window_in_minutes)
+    def write_flickrs_to_file(self, bbox):
+        min_timestamp = Date_handler().get_utc_x_minutes_ago(settings.flickr_fetch_window_in_minutes)
         media_set = self.get_closest_media_objects(lat, lon, min_timestamp)
         igrams = [(self.make_igram(media)) for media in media_set]
         f = self.get_staging_file()
         [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
         f.copy_file_to(self.staging_full_path, settings.RAW_FEED_FILE_PATH)
+

@@ -20,3 +20,8 @@ insta_client_key = ''
 insta_access_token = ''
 insta_raw_feed_file_prefix = 'insta_se_'
 insta_fetch_window_in_minutes = 10
+
+flickr_client_id = ''
+flickr_client_key = ''
+flickr_raw_feed_file_prefix = 'flickr_se_'
+flickr_fetch_window_in_minutes = 10
