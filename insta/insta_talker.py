@@ -38,7 +38,7 @@ class Igram():
         self.coord = coord
         self.username = username
     def get_as_dict(self):
-        d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+        d = {"post_id": self.post_id, "text": self.text, "created": self.created.strftime("%Y-%m-%dT%H:%M:%SZ"),
              "content_img_url": self.content_img_url, "user_img_url":self.user_img_url, "source": self.type, "up_votes": self.up_votes,
              "user_id": self.user_id, "place_name": self.place_name, "coord": self.coord, "username": self.username}
         return d
