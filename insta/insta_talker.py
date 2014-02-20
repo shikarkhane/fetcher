@@ -19,7 +19,7 @@ class Base():
         else:
             text = 'Check out my instagram!'
         created = o.created_time
-        content_img_url = o.link
+        content_img_url = o.images["low_resolution"].url
         user_img_url = o.user.profile_picture
         user_id = o.user.id
         username = o.user.username
