@@ -1,9 +1,11 @@
 from twython import TwythonStreamer
 from common.utility import File_handler, Date_handler, Coordinate_handler
 import settings as s
+from common.pipeline import Pipe
 
 class Tweet_talker(TwythonStreamer):
     def __init__(self):
+        self.pipe = Pipe() #to check for duplicates
         self.staging_file_path = s.STAGING_RAW_FEED_FILE_PATH
         self.file_path = s.RAW_FEED_FILE_PATH
         self.accepting_country_codes = s.TwitterStream_ACCEPTING_COUNTRY_CODES
@@ -16,7 +18,7 @@ class Tweet_talker(TwythonStreamer):
         super(Tweet_talker, self).__init__(s.twitter_consumer_key, s.twitter_consumer_secret, s.twitter_oauth_key,s.twitter_oauth_secret)
     def on_success(self, data):
         if data:
-            if not self.country_code_handle.skip_this_data(data, self.accepting_country_codes):
+            if not self.country_code_handle.skip_this_data(data, self.accepting_country_codes) and self.pipe.add(data.get("id")):
                 staging_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
                 if (self.last_full_path == staging_full_path):
                     handle_to_use = self.last_file_handle

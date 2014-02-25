@@ -37,10 +37,10 @@ class Base():
         self.staging_full_path = "{0}{1}{2}.txt".format(staging_file_path, file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
         f = File_handler(self.staging_full_path)
         return f
-    def write_igrams_to_file(self, lat, lon):
+    def write_igrams_to_file(self, lat, lon, pipe):
         min_timestamp = Date_handler().get_utc_x_minutes_ago(settings.insta_fetch_window_in_minutes)
         media_set = self.get_closest_media_objects(lat, lon, min_timestamp)
-        igrams = [(self.make_igram(media)) for media in media_set]
+        igrams = [(self.make_igram(media)) for media in media_set if pipe.add(media.id)]
         f = self.get_staging_file()
         [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
         f.copy_file_to(self.staging_full_path, settings.RAW_FEED_FILE_PATH)

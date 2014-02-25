@@ -10,10 +10,23 @@ import json
 import datetime
 import settings
 
+from common.pipeline import Pipe
 from common.utility import File_handler, Date_handler, Coordinate_handler
 
 filename = "test_append_to_file_one_line.txt"
-
+class Test_pipeline(unittest.TestCase):
+    def setUp(self):
+        self.p = Pipe()
+        self.p.size = 1
+    def test_add(self):
+        new_id = '12345'
+        self.p.add(new_id)
+        self.assertEqual(self.p.add(new_id), False)
+    def test_maintain(self):
+        for i in range(10):
+            self.p.add(i)
+        self.p.size
+        self.assertEqual(len(self.p.pipe), self.p.size)
 class Test_utility(unittest.TestCase):
     def setUp(self):
         pass

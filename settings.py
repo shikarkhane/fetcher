@@ -4,6 +4,7 @@ DEBUG = True
 DIRNAME = os.path.dirname(__file__)
 RESOURCE_PATH = os.path.join(DIRNAME, 'resource')
 GDAL_SHAPE_FILENAME = 'TM_WORLD_BORDERS-0.3.shp'
+PIPELINE_SIZE = 1000
 
 STAGING_RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/staging/'
 RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/'
