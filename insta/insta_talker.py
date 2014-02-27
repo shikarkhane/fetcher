@@ -41,6 +41,7 @@ class Base():
         min_timestamp = Date_handler().get_utc_x_minutes_ago(settings.insta_fetch_window_in_minutes)
         media_set = self.get_closest_media_objects(lat, lon, min_timestamp)
         igrams = [(self.make_igram(media)) for media in media_set if pipe.add(media.id)]
-        f = self.get_staging_file()
-        [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
-        f.copy_file_to(self.staging_full_path, settings.RAW_FEED_FILE_PATH)
+        if len(igrams):
+            f = self.get_staging_file()
+            [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
+            f.copy_file_to(self.staging_full_path, settings.RAW_FEED_FILE_PATH)
