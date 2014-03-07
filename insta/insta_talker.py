@@ -34,7 +34,8 @@ class Base():
     def get_staging_file(self):
         staging_file_path = settings.STAGING_RAW_FEED_FILE_PATH
         file_name_prefix = settings.insta_raw_feed_file_prefix
-        self.staging_full_path = "{0}{1}{2}.txt".format(staging_file_path, file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
+        self.staging_full_path = "{0}{1}{2}.txt".format(staging_file_path, file_name_prefix,
+                                                        Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT))
         f = File_handler(self.staging_full_path)
         return f
     def write_igrams_to_file(self, lat, lon, pipe):

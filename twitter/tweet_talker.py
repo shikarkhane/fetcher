@@ -2,7 +2,7 @@ from twython import TwythonStreamer
 from common.utility import File_handler, Date_handler, Coordinate_handler
 import settings as s
 from common.pipeline import Pipe
-
+import settings
 class Tweet_talker(TwythonStreamer):
     def __init__(self):
         self.pipe = Pipe() #to check for duplicates
@@ -11,15 +11,19 @@ class Tweet_talker(TwythonStreamer):
         self.accepting_country_codes = s.TwitterStream_ACCEPTING_COUNTRY_CODES
         self.file_name_prefix = s.twitter_raw_feed_file_prefix
         
-        self.last_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
+        self.last_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix,
+                                                     Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT))
         self.last_file_handle = File_handler(self.last_full_path)
          
         self.country_code_handle = Coordinate_handler()        
-        super(Tweet_talker, self).__init__(s.twitter_consumer_key, s.twitter_consumer_secret, s.twitter_oauth_key,s.twitter_oauth_secret)
+        super(Tweet_talker, self).__init__(s.twitter_consumer_key, s.twitter_consumer_secret,
+                                           s.twitter_oauth_key,s.twitter_oauth_secret)
     def on_success(self, data):
         if data:
-            if not self.country_code_handle.skip_this_data(data, self.accepting_country_codes) and self.pipe.add(data.get("id")):
-                staging_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix, Date_handler().get_current_utc_date_string("%Y%m%d_%H%M"))
+            if not self.country_code_handle.skip_this_data(data, self.accepting_country_codes) \
+                and self.pipe.add(data.get("id")):
+                staging_full_path = "{0}{1}{2}.txt".format(self.staging_file_path, self.file_name_prefix,
+                                                           Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT))
                 if (self.last_full_path == staging_full_path):
                     handle_to_use = self.last_file_handle
                 else:

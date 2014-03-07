@@ -1,4 +1,4 @@
-# this file should contain only path related setttings
+# only static config values, which need a server restart should be written here
 import os
 DEBUG = True
 DIRNAME = os.path.dirname(__file__)
@@ -8,6 +8,10 @@ PIPELINE_SIZE = 1000
 
 STAGING_RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/staging/'
 RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/'
+
+UTC_TIMESTAMP_FORMAT = "%Y%m%d_%H%M"
+
+cache_key_expiry_in_days = 1
 
 twitter_raw_feed_file_prefix = 'twitter_se_'
 twitter_consumer_key = ''
@@ -21,6 +25,7 @@ insta_client_key = ''
 insta_access_token = ''
 insta_raw_feed_file_prefix = 'insta_se_'
 insta_fetch_window_in_minutes = 10
+insta_static_coordinates_to_scan = [[59.328997,18.06549]]
 
 flickr_client_id = ''
 flickr_client_key = ''

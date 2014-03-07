@@ -3,9 +3,8 @@ import settings
 from common.pipeline import Pipe
 from time import sleep
 
-# pipe object helps us check for duplicates
-p = Pipe()
-b = Base(settings.insta_access_token)
-while True:
-    b.write_igrams_to_file(59.328997,18.06549, p)
-    sleep(settings.insta_fetch_window_in_minutes*61)
+def insta_service():
+    # pipe object helps us check for duplicates
+    p = Pipe()
+    b = Base(settings.insta_access_token)
+    [b.write_igrams_to_file(c[0], c[1], p) for c in settings.insta_static_coordinates_to_scan]

@@ -12,6 +12,7 @@ import settings
 
 from common.pipeline import Pipe
 from common.utility import File_handler, Date_handler, Coordinate_handler
+from dogpile.cache import make_region
 
 filename = "test_append_to_file_one_line.txt"
 class Test_pipeline(unittest.TestCase):
@@ -34,8 +35,8 @@ class Test_utility(unittest.TestCase):
         pass
     def test_get_current_utc_string(self):
         e = datetime.datetime.now()
-        expected = e.strftime("%Y-%m-%d %H:%M")
-        actual = Date_handler().get_current_utc_date_string("%Y-%m-%d %H:%M")
+        expected = e.strftime(settings.UTC_TIMESTAMP_FORMAT)
+        actual = Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT)
         self.assertEqual(expected, actual)
     def test_append_to_file_as_json(self):
         #append current time to file 
@@ -63,6 +64,12 @@ class Test_utility(unittest.TestCase):
             for coord in coord_mixture[key]:
                 # data = { "time" : str(time.time()), "coordinates": {"coordinates": coord}}
                 self.assertEqual(f.find_country_code_for_coordinates(coord), key)
+class Test_cache(unittest.TestCase):
+    def setUp(self):
+        self.region = make_region().configure('dogpile.cache.memory')
+    def test_add(self):
+        lat = 58
+        lng = 18
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
