@@ -12,6 +12,7 @@ import settings
 
 from common.pipeline import Pipe
 from common.utility import File_handler, Date_handler, Coordinate_handler
+from common import cache
 from dogpile.cache import make_region
 
 filename = "test_append_to_file_one_line.txt"
@@ -67,10 +68,15 @@ class Test_utility(unittest.TestCase):
 class Test_cache(unittest.TestCase):
     def setUp(self):
         self.region = make_region().configure('dogpile.cache.memory')
-    def test_add(self):
-        lat = 58
-        lng = 18
-
+    def test_add(self, lat=58, lng = 18):
+        cache.get_or_create(self.region, lat, lng)
+        r = self.region.get("{0},{1}".format(lat,lng))
+        self.assertGreater(len(r), 0)
+    def test_get_all_keys(self):
+        coord_list = [[58,18],[57,17],[56,16],[55,15]]
+        [self.test_add(i[0], i[1]) for i in coord_list]
+        all_keys = cache.get_all_keys(self.region)
+        self.assertEqual(len(all_keys), len(coord_list))
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

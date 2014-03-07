@@ -12,22 +12,26 @@ RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/'
 UTC_TIMESTAMP_FORMAT = "%Y%m%d_%H%M"
 
 cache_key_expiry_in_days = 1
+cache_get_all_keys_for_last_x_days = 10
 
 twitter_raw_feed_file_prefix = 'twitter_se_'
+TwitterStream_ACCEPTING_COUNTRY_CODES = """['SE']"""
+
+insta_raw_feed_file_prefix = 'insta_se_'
+insta_fetch_window_in_minutes = 1
+insta_static_coordinates_to_scan = [[59.328997,18.06549]]
+
+flickr_raw_feed_file_prefix = 'flickr_se_'
+flickr_fetch_window_in_minutes = 10
+
 twitter_consumer_key = ''
 twitter_consumer_secret = ''
 twitter_oauth_key = ''
 twitter_oauth_secret = ''
-TwitterStream_ACCEPTING_COUNTRY_CODES = """['SE']"""
 
 insta_client_id = ''
 insta_client_key = ''
 insta_access_token = ''
-insta_raw_feed_file_prefix = 'insta_se_'
-insta_fetch_window_in_minutes = 10
-insta_static_coordinates_to_scan = [[59.328997,18.06549]]
 
 flickr_client_id = ''
 flickr_client_key = ''
-flickr_raw_feed_file_prefix = 'flickr_se_'
-flickr_fetch_window_in_minutes = 10

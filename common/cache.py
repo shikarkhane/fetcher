@@ -1,9 +1,10 @@
 from common.utility import Date_handler
 import settings
+import datetime
+from datetime import timedelta
 
-
-def fmt_dt():
-    return Date_handler().get_current_utc_date_string("%Y%m%d")
+def fmt_dt(dt = datetime.datetime.utcnow()):
+    return dt.strftime("%Y%m%d")
 def fmt_key(lat,lng):
     return "{0},{1}".format(lat,lng)
 def get_or_create(cache_region, lat, lng):
@@ -46,3 +47,14 @@ def remove_coord_from_dt(cache_region, dt, coord):
 def maintain(cache_region):
     '''remove keys from cache which are older than settings.cache_key_expiry_in_days'''
     pass
+def get_all_keys(cache_region):
+    '''check last x days'''
+    from_dt_now = datetime.datetime.utcnow()
+    till_dt = from_dt_now - timedelta(settings.cache_get_all_keys_for_last_x_days)
+    all_keys = []
+    while from_dt_now >= till_dt:
+        coord_list = cache_region.get(fmt_dt(from_dt_now))
+        if coord_list:
+            [all_keys.append(i) for i in coord_list]
+        from_dt_now = from_dt_now - timedelta(1)
+    return all_keys

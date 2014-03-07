@@ -8,7 +8,6 @@ from dogpile.cache import make_region
 region = make_region().configure(
     'dogpile.cache.memory'
 )
-region.get_multi()
 # Start the scheduler
 sched = Scheduler()
 sched.start()
@@ -18,6 +17,6 @@ application = tornado.web.Application([
 ], my_shared_cache = region)
 
 if __name__ == "__main__":
-    sched.add_interval_job(insta_service, minutes=settings.insta_fetch_window_in_minutes)
+    sched.add_interval_job(lambda: insta_service(region), minutes=settings.insta_fetch_window_in_minutes)
     application.listen(9999)
     tornado.ioloop.IOLoop.instance().start()
