@@ -77,6 +77,10 @@ class Test_cache(unittest.TestCase):
         [self.test_add(i[0], i[1]) for i in coord_list]
         all_keys = cache.get_all_keys(self.region)
         self.assertEqual(len(all_keys), len(coord_list))
+    def test_maintain(self):
+        self.test_get_all_keys()
+        cache.maintain(self.region)
+        self.assertEqual(True, False)
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()

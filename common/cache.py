@@ -46,11 +46,22 @@ def remove_coord_from_dt(cache_region, dt, coord):
         cache_region.set(dt, f)
 def maintain(cache_region):
     '''remove keys from cache which are older than settings.cache_key_expiry_in_days'''
-    pass
+    dt_now = datetime.datetime.utcnow()
+    from_dt = dt_now - timedelta(settings.cache_key_expiry_in_days)
+    to_dt = from_dt - timedelta(10) # look for 10 days before expiry
+    all_keys = []
+    while from_dt >= to_dt:
+        coord_list = cache_region.get(fmt_dt(from_dt))
+        if coord_list:
+            # delete all the coordinate keys
+            [cache_region.delete(i) for i in coord_list]
+        #remove the date entry
+        cache_region.delete(fmt_dt(from_dt))
+        from_dt = from_dt - timedelta(1)
 def get_all_keys(cache_region):
     '''check last x days'''
     from_dt_now = datetime.datetime.utcnow()
-    till_dt = from_dt_now - timedelta(settings.cache_get_all_keys_for_last_x_days)
+    till_dt = from_dt_now - timedelta(settings.cache_key_expiry_in_days)
     all_keys = []
     while from_dt_now >= till_dt:
         coord_list = cache_region.get(fmt_dt(from_dt_now))

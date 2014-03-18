@@ -13,8 +13,8 @@ sched = Scheduler()
 sched.start()
 
 application = tornado.web.Application([
-    (r"/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", Base_handler),
-], my_shared_cache = region)
+    (r"/location/(\-?\d+(?:\.\d+)?)/(\-?\d+(?:\.\d+)?)/", Base_handler, dict(my_shared_cache=region)),
+])
 
 if __name__ == "__main__":
     sched.add_interval_job(lambda: insta_service(region), minutes=settings.insta_fetch_window_in_minutes)
