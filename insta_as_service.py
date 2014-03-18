@@ -9,8 +9,14 @@ def insta_service(cache_obj):
     p = Pipe()
     b = Base(settings.insta_access_token)
     # scan static coordinates
-    [b.write_igrams_to_file(c[0], c[1], p) for c in settings.insta_static_coordinates_to_scan]
+    try:
+        [b.write_igrams_to_file(c[0], c[1], p) for c in settings.insta_static_coordinates_to_scan]
+    except:
+        pass
     # scan dynamic coordinates stored in the cache
-    [b.write_igrams_to_file(c.strip(',')[0], c.strip(',')[1], p) for c in cache.get_all_keys(cache_obj)]
+    try:
+        [b.write_igrams_to_file(c.split(',')[0], c.split(',')[1], p) for c in cache.get_all_keys(cache_obj)]
+    except:
+        pass
 
 
