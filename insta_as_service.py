@@ -11,12 +11,12 @@ def insta_service(cache_obj):
     # scan static coordinates
     try:
         [b.write_igrams_to_file(c[0], c[1], p) for c in settings.insta_static_coordinates_to_scan]
-    except:
-        pass
+    except Exception as e:
+        print str(e)
     # scan dynamic coordinates stored in the cache
     try:
         [b.write_igrams_to_file(c.split(',')[0], c.split(',')[1], p) for c in cache.get_all_keys(cache_obj)]
-    except:
-        pass
+    except Exception as e:
+        print str(e)
 
 
