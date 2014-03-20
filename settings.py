@@ -11,14 +11,13 @@ RAW_FEED_FILE_PATH = '/home/nikhil/temp/feed/'
 
 UTC_TIMESTAMP_FORMAT = "%Y%m%d_%H%M"
 
-cache_key_expiry_in_days = 1
-cache_get_all_keys_for_last_x_days = 10
+cache_key_expiry_in_days = 3
 
 twitter_raw_feed_file_prefix = 'twitter_se_'
 TwitterStream_ACCEPTING_COUNTRY_CODES = """['SE']"""
 
 insta_raw_feed_file_prefix = 'insta_se_'
-insta_fetch_window_in_minutes = 1
+insta_fetch_window_in_minutes = 2
 insta_static_coordinates_to_scan = [[59.328997,18.06549]]
 
 flickr_raw_feed_file_prefix = 'flickr_se_'
