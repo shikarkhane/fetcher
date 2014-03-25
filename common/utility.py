@@ -33,7 +33,8 @@ class Coordinate_handler():
         else:
             return True
     def reverse_lookup_locality(self, coord):
-        return 'Stockholm'
+        #todo
+        return 'Nearby!'
 class File_handler():
     '''
     anything related to file writing/deleting etc
