@@ -31,11 +31,12 @@ class Base():
         up_votes = o.like_count
         i = Post(post_id, text, created, content_img_url, user_img_url, user_id, place_name, coord, username, 'instagram', up_votes)
         return i
-    def get_staging_file(self):
+    def get_staging_file(self, lat, lon):
         staging_file_path = settings.STAGING_RAW_FEED_FILE_PATH
         file_name_prefix = settings.insta_raw_feed_file_prefix
-        self.staging_full_path = "{0}{1}{2}.txt".format(staging_file_path, file_name_prefix,
-                                                        Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT))
+        self.staging_full_path = "{0}{1}{2}_{3}{4}.txt".format(staging_file_path, file_name_prefix,
+                                                        Date_handler().get_current_utc_date_string(settings.UTC_TIMESTAMP_FORMAT),
+                                                        str(lat), str(lon))
         f = File_handler(self.staging_full_path)
         return f
     def write_igrams_to_file(self, lat, lon, pipe):
@@ -43,6 +44,6 @@ class Base():
         media_set = self.get_closest_media_objects(lat, lon, min_timestamp)
         igrams = [(self.make_igram(media)) for media in media_set if pipe.add(media.id)]
         if len(igrams):
-            f = self.get_staging_file()
+            f = self.get_staging_file(lat,lon)
             [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
             f.copy_file_to(self.staging_full_path, settings.RAW_FEED_FILE_PATH)
