@@ -69,7 +69,7 @@ class Test_cache(unittest.TestCase):
     def setUp(self):
         self.region = make_region().configure('dogpile.cache.memory')
     def test_add(self, lat=58, lng = 18):
-        cache.get_or_create(self.region, lat, lng)
+        cache.get_or_create(self.region, "{0},{1}".format(lat,lng))
         r = self.region.get("{0},{1}".format(lat,lng))
         self.assertGreater(len(r), 0)
     def test_get_all_keys(self):
@@ -78,6 +78,7 @@ class Test_cache(unittest.TestCase):
         all_keys = cache.get_all_keys(self.region)
         self.assertEqual(len(all_keys), len(coord_list))
     def test_maintain(self):
+        #todo
         self.test_get_all_keys()
         cache.maintain(self.region)
         self.assertEqual(True, False)

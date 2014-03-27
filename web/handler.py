@@ -13,7 +13,7 @@ class Base_handler(tornado.web.RequestHandler):
     def initialize(self, my_shared_cache):
         self.my_shared_cache = my_shared_cache
     def get(self, q_lat, q_long):
-        cache.get_or_create(self.my_shared_cache, q_lat, q_long)
+         cache.get_or_create(self.my_shared_cache, "{0},{1}".format(q_lat, q_long))
 
 
 

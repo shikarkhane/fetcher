@@ -2,6 +2,7 @@ from instagram.client import InstagramAPI
 from common.utility import Coordinate_handler, Date_handler, File_handler
 import settings
 from common.content import Post
+from common import cache
 
 class Base():
     def __init__(self, access_token):
@@ -39,10 +40,10 @@ class Base():
                                                         str(lat), str(lon))
         f = File_handler(self.staging_full_path)
         return f
-    def write_igrams_to_file(self, lat, lon, pipe):
+    def write_igrams_to_file(self, lat, lon, cache_post_ids):
         min_timestamp = Date_handler().get_utc_x_minutes_ago(settings.insta_fetch_window_in_minutes)
         media_set = self.get_closest_media_objects(lat, lon, min_timestamp)
-        igrams = [(self.make_igram(media)) for media in media_set if pipe.add(media.id)]
+        igrams = [(self.make_igram(media)) for media in media_set if not cache.if_exists(cache_post_ids, media.id)]
         if len(igrams):
             f = self.get_staging_file(lat,lon)
             [f.append_to_file_as_json(i.get_as_dict()) for i in igrams]
