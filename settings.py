@@ -19,6 +19,7 @@ TwitterStream_ACCEPTING_COUNTRY_CODES = """['SE']"""
 insta_raw_feed_file_prefix = 'insta_se_'
 insta_fetch_window_in_minutes = 2
 insta_static_coordinates_to_scan = [[59.328997,18.06549]]
+insta_sleep_between_calls_in_sec = 5
 
 flickr_raw_feed_file_prefix = 'flickr_se_'
 flickr_fetch_window_in_minutes = 10
